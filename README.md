@@ -1,7 +1,7 @@
 <div align="center">
 
 # Don't Trust Stubborn Neighbors: 
-# A Security Framework for Adversarial Multi-Agent Networks
+# A Security Framework for Agentic Networks
 
 *Code for the paper*
 
