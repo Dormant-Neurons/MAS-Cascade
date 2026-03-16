@@ -1,0 +1,824 @@
+# Qwen3-235B — All Experiments
+# Topologies: complete-6a, pstar-hub-6a, pstar-leaf-6a | Datasets: csqa_100, toolbench_100
+# Attacker: Ihigh-Alow (high persuasion, low agreeableness)
+
+defaults:
+  model: "qwen3-235b"
+  model_dir_name: qwen3-235b
+  backend: vllm
+  max_tokens: 2048
+  rounds: 10
+  save_json: true
+  log_belief_csv: true
+  log_trust_csv: true
+  trust_gamma: 2.0
+  trust_lr: 0.4
+  parallel: true
+  max_workers: 8
+  no_trust: true
+  warmup: 0
+  fixed_trust: false
+  adaptive_attacker: false
+
+configs:
+
+  # 1. NO-TRUST BASELINE — attacker present, no trust mechanism
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  # 2. NO-ATTACKER BASELINE — benign-only, no trust
+
+  - scenario: complete-6a-noatt-Imed-Amed-v3-csqa
+    graph: complete
+    agents: 6
+    attackers: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-6a-noatt-Imed-Amed-v3-tb
+    graph: complete
+    agents: 6
+    attackers: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-6a-noatt-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-6a-noatt-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-noatt-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-noatt-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-noatt-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-noatt-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  # 3. EXP1 (T-W) — Warmup-10 + fixed trust, static attacker
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  # 4. EXP2 (T-WA) — Warmup-10 + fixed trust, adaptive attacker
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    adaptive_attacker: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    adaptive_attacker: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    adaptive_attacker: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    adaptive_attacker: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    adaptive_attacker: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: true
+    adaptive_attacker: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  # 5. EXP3 (T-WS) — Warmup-10 + sparse random trust (20%), adaptive attacker
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-sprs-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: false
+    adaptive_attacker: true
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-sprs-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: false
+    adaptive_attacker: true
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-sprs-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: false
+    adaptive_attacker: true
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-sprs-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: false
+    adaptive_attacker: true
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-sprs-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: false
+    adaptive_attacker: true
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Amed-v3-W10-ada-sprs-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: false
+    warmup: 10
+    fixed_trust: false
+    adaptive_attacker: true
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  # 6. EXP4r (T-S) — Random sparse trust (20%), static attacker, Ilow-Ahigh benigns
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-rsprs-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-rsprs-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-rsprs-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: false
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-rsprs-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: false
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-rsprs-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: false
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "low_v3,high_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "high_v3,low_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-rsprs-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: false
+    parallel: false
+    max_workers: 1
+    trust_update_mode: prefix_fraction_random
+    trust_update_fraction: 0.0
+    trust_update_random_fraction: 0.2
+    persuasion_levels: "low_v3,high_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "high_v3,low_v3,high_v3,high_v3,high_v3,high_v3"
+
+  # 7. TRAITS ABLATION — no trust, vary benign persuasion/agreeableness
+
+  # --- Ilow-Ahigh benigns ---
+  - scenario: complete-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "low_v3,high_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "high_v3,low_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "low_v3,high_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "high_v3,low_v3,high_v3,high_v3,high_v3,high_v3"
+
+  # --- Ilow-Amed benigns ---
+  - scenario: complete-6a-Ihigh-Alow-benign-Ilow-Amed-v3-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Ilow-Amed-v3-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Ilow-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Ilow-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Ilow-Amed-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "low_v3,high_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Ilow-Amed-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "low_v3,high_v3,low_v3,low_v3,low_v3,low_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  # --- Imed-Ahigh benigns ---
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Ahigh-v3-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: complete-6a-Ihigh-Alow-benign-Imed-Ahigh-v3-tb
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Ahigh-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-hub-6a-Ihigh-Alow-benign-Imed-Ahigh-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Ahigh-v3-csqa
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "high_v3,low_v3,high_v3,high_v3,high_v3,high_v3"
+
+  - scenario: pstar-leaf-6a-Ihigh-Alow-benign-Imed-Ahigh-v3-tb
+    graph: pure_star
+    agents: 6
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "high_v3,low_v3,high_v3,high_v3,high_v3,high_v3"
+
+  # 8. AGENT SCALING — 4-agent and 8-agent, no trust
+
+  # --- 4 agents ---
+  - scenario: complete-4a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: complete
+    agents: 4
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-4a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: complete
+    agents: 4
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-4a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 4
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-4a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 4
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-4a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 4
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-4a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 4
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3"
+
+  # --- 8 agents ---
+  - scenario: complete-8a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: complete
+    agents: 8
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: complete-8a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: complete
+    agents: 8
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-8a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 8
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-hub-8a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 8
+    attackers: 1
+    placement: 0
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-8a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: pure_star
+    agents: 8
+    attackers: 1
+    placement: 1
+    dataset: csqa_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+
+  - scenario: pstar-leaf-8a-Ihigh-Alow-benign-Imed-Amed-v3-tb
+    graph: pure_star
+    agents: 8
+    attackers: 1
+    placement: 1
+    dataset: toolbench_100
+    no_trust: true
+    persuasion_levels: "medium_v3,high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "medium_v3,low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
