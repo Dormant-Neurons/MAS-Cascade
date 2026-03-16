@@ -2,7 +2,9 @@
 
 Code for the paper "Don't Trust Stubborn Neighbors: A Security Framework for Agentic Networks".
 
-LLM-based multi-agent systems (MAS) are increasingly deployed for agentic tasks, but their interactive nature introduces security risks: malicious agents can exploit communication channels to propagate misinformation and manipulate collective outcomes. We study how such manipulation arises and spreads using the Friedkin–Johnsen opinion formation model from social sciences as a theoretical framework for LLM-MAS. We find that a single highly stubborn and persuasive agent can trigger a persuasion cascade that takes over group dynamics. To counter this, we propose a trust-adaptive defense that dynamically adjusts inter-agent trust to limit adversarial influence while preserving cooperative performance.
+This repository contains the code for running misinformation attacks on multi-agent LLM systems, fitting the Friedkin–Johnsen belief dynamics model to LLM agent behavior, and evaluating trust-adaptive defenses across different network topologies and datasets.
+
+![Teaser](Fig/teaser_fig.png)
 
 ---
 
