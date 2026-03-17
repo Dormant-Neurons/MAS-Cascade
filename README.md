@@ -10,11 +10,11 @@
 
 ---
 
-Multi-agent LLM systems are vulnerable to adversarial agents that attempt to manipulate group decisions through repeated discussion. This repository provides a framework for:
+Multi-agent LLM systems are vulnerable to malicious agents that attempt to manipulate group decisions through spreading misinformation during discussion. This repository provides a framework for:
 
-- **Running adversarial multi-agent experiments** on CommonsenseQA and ToolBench benchmarks across different network topologies
+- **Running adversarial multi-agent experiments** on CommonsenseQA and ToolBench datasets across different network topologies
 - **Evaluating trust-adaptive defenses** that dynamically reweight peer influence to isolate malicious agents
-- **Fitting the Friedkin–Johnsen (FJ) belief dynamics model** to LLM agent behavior to analytically predict adversarial outcomes
+- **Fitting the Friedkin–Johnsen (FJ) belief dynamics model** to LLM agent behavior to analytically predict belief outcomes
 
 ---
 
@@ -48,7 +48,6 @@ cascade/
     └── summarize_beliefs.py        # Belief summary generation
 configs/                    # YAML experiment configs
 data/                       # JSONL datasets (csqa, toolbench)
-monitor.py                  # Scenario completion monitor
 ```
 
 ---
