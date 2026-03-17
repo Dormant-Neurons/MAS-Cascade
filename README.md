@@ -14,7 +14,7 @@ Multi-agent LLM systems are vulnerable to malicious agents that attempt to manip
 
 - **Running adversarial multi-agent experiments** on CommonsenseQA and ToolBench datasets across different network topologies
 - **Evaluating trust-adaptive defenses** that dynamically reweight peer influence to isolate malicious agents
-- **Fitting the Friedkin–Johnsen (FJ) belief dynamics model** to LLM agent behavior to analytically predict belief outcomes
+- **Fitting the Friedkin–Johnsen (FJ) opinion dynamics model** to LLM agent behavior to analytically predict belief outcomes
 
 ---
 
