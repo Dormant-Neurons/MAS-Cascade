@@ -211,7 +211,7 @@ Questions follow the standard CSQA format:
 
 ## Citation
 
-If you use this code, please cite:
+To cite our work:
 
 ```bibtex
 @misc{abedini2026donttruststubbornneighbors,
