@@ -2,7 +2,7 @@
 
 # Don't Trust Stubborn Neighbors:<br>A Security Framework for Agentic Networks
 
-*Code for the paper*
+*Code for the paper: [arXiv:2603.15809](https://arxiv.org/abs/2603.15809)*
 
 ![Teaser](Fig/teaser_fig.png)
 
@@ -214,7 +214,14 @@ Questions follow the standard CSQA format:
 If you use this code, please cite:
 
 ```bibtex
- 
-TO BE UPDATED
+@misc{abedini2026donttruststubbornneighbors,
+      title={Don't Trust Stubborn Neighbors: A Security Framework for Agentic Networks}, 
+      author={Samira Abedini and Sina Mavali and Lea Schönherr and Martin Pawelczyk and Rebekka Burkholz},
+      year={2026},
+      eprint={2603.15809},
+      archivePrefix={arXiv},
+      primaryClass={cs.MA},
+      url={https://arxiv.org/abs/2603.15809}, 
+}
 
 ```
