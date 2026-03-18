@@ -4,7 +4,7 @@
 
 *Code for the paper: [arXiv:2603.15809](https://arxiv.org/abs/2603.15809)*
 
-![Teaser](Fig/teaser_fig.png)
+![Teaser](figures/teaser_fig.png)
 
 </div>
 
