@@ -81,12 +81,10 @@ There are two ways to run experiments:
 Use `cascade.cli.runner` with a YAML config. This is the standard approach and handles all experiment parameters automatically.
 
 ```bash
-# CommonsenseQA
 python -m cascade.cli.runner --config configs/qwen3-235b_all_experiments.yaml
-
-# ToolBench — same config, different entry point
-python -m cascade.experiments.toolbench --config configs/qwen3-235b_all_experiments.yaml
 ```
+
+`cascade.cli.runner` automatically routes to the CommonsenseQA or ToolBench runner based on the `dataset` field in each config entry — no need to run separate commands.
 
 Ready-to-use configs are provided:
 
