@@ -1,0 +1,24 @@
+# Quick test: complete graph, 6 agents, 1 attacker, no trust, 2 rounds
+defaults:
+  model: "gpt-4o-mini"
+  model_dir_name: gpt-5-mini
+  backend: openai
+  max_tokens: 1024
+  parallel: false
+  max_workers: 1
+  no_trust: true
+  rounds: 2
+  save_json: true
+  log_belief_csv: true
+  log_trust_csv: false
+
+configs:
+  - scenario: test-complete-6a-Ihigh-Alow-benign-Imed-Amed-v3-csqa
+    graph: complete
+    agents: 6
+    attackers: 1
+    placement: 0
+    dataset: csqa_100
+    sample: 1
+    persuasion_levels: "high_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"
+    agreeableness_levels: "low_v3,medium_v3,medium_v3,medium_v3,medium_v3,medium_v3"

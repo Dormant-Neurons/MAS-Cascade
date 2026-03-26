@@ -74,29 +74,38 @@ GOOGLE_CLOUD_PROJECT=your_project_id
 
 ## Running Experiments
 
-Experiments are driven by YAML config files. Each config has a `defaults` block and a `configs` list of scenarios.
+There are two ways to run experiments:
+
+### Option 1: Config file (recommended)
+
+Use `cascade.cli.runner` with a YAML config. This is the standard approach and handles all experiment parameters automatically.
 
 ```bash
 # CommonsenseQA
-python -m cascade.experiments.csqa --config configs/qwen3-235b_all_experiments.yaml
+python -m cascade.cli.runner --config configs/qwen3-235b_all_experiments.yaml
 
-# ToolBench
+# ToolBench — same config, different entry point
 python -m cascade.experiments.toolbench --config configs/qwen3-235b_all_experiments.yaml
 ```
 
-To run a single experiment without a config file, pass all options directly on the CLI:
+Ready-to-use configs are provided:
 
 ```bash
-# Benign baseline — 6 agents, complete graph, no attacker
-python -m cascade.experiments.csqa \
-  --model gpt-4o-mini \
-  --backend openai \
-  --graph complete \
-  --agents 6 \
-  --rounds 10 \
-  --dataset csqa_100
+# Quick test (OpenAI gpt-4o-mini, complete graph, no trust)
+python -m cascade.cli.runner --config configs/test_gpt5mini.yaml
 
-# Adversarial — 1 attacker (high persuasion, low agreeableness) and 5 benign agents
+# Full experiment suite for Qwen3-235B (all topologies, datasets, trust experiments, traits, agent scaling)
+python -m cascade.cli.runner --config configs/qwen3-235b_all_experiments.yaml
+```
+
+`configs/qwen3-235b_all_experiments.yaml` is the reference config covering all 68 scenarios used in the paper: 3 topologies × 2 datasets × no-trust baseline, trust experiments (Exp1–4), trait ablations, and agent scaling.
+
+### Option 2: Direct CLI args
+
+Use `cascade.experiments.csqa` or `cascade.experiments.toolbench` directly. The `--scenario` flag is **required** — it sets the output folder name under `output/`.
+
+```bash
+# Adversarial — 1 attacker, 5 benign agents, complete graph, no trust
 python -m cascade.experiments.csqa \
   --model gpt-4o-mini \
   --backend openai \
@@ -106,13 +115,9 @@ python -m cascade.experiments.csqa \
   --placement 0 \
   --rounds 10 \
   --dataset csqa_100 \
-  --persuasion-levels "high_v3,low_v3,low_v3,low_v3,low_v3,low_v3" \
-  --agreeableness-levels "low_v3,high_v3,high_v3,high_v3,high_v3,high_v3" \
   --no-trust \
-  --scenario complete-6a-Ihigh-Alow-benign-Ilow-Ahigh-v3-csqa
+  --scenario complete-6a-notrust-csqa
 ```
-
-The `--scenario` flag sets the output folder name under `output/`. 
 
 ### Backends
 
